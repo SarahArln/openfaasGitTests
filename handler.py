@@ -20,4 +20,4 @@ def handle(req):
         "pwd": "siemens"
     }
     response2 = requests.get(url=openfaas_ip, data=json.dumps(data))
-    return response1.text + '\n' + response2.text + '123'
+    return response1.text + '\n' + response2.text + '\n123'
