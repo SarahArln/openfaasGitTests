@@ -1,9 +1,9 @@
 import requests
 import json
 def handle(req):
-    listener_ip = '10.0.0.123'
-    database_ip = '10.0.0.123'
-    openfaas_ip = 'http://10.0.0.123:31112/function/openfaas'
+    listener_ip = '172.29.192.1'
+    database_ip = '172.29.192.1'
+    openfaas_ip = 'http://172.29.192.1:31112/function/openfaas'
     data = {
         "ip": listener_ip,
         "device": "magician",
@@ -20,4 +20,4 @@ def handle(req):
         "pwd": "siemens"
     }
     response2 = requests.get(url=openfaas_ip, data=json.dumps(data))
-    return response1.text + '\n' + response2.text + '123'
+    return response1.text + '\n' + response2.text + '\n123'
