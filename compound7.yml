@@ -1,0 +1,9 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  compound7:
+    lang: python3
+    handler: ./compound7
+    image: sarahha/compound7:latest
