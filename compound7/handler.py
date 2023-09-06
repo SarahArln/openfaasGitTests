@@ -26,4 +26,4 @@ def handle(req):
     response2 = requests.get(url=openfaas_ip, data=json.dumps(data))
 
 
-    return response1.text + '\n' + response2.text + p.simple('444')
+    return response1.text + '\n' + response2.text + p.simple('445')
