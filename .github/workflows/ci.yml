@@ -69,8 +69,7 @@ jobs:
       
       - name: Build image
         run: >
-          FUNCTION_NAME="compound7"
-          faas-cli build -f ./${{FUNCTION_NAME}}.yml
+          faas-cli build -f ./compound7.yml
       # - name: Publish functions
       #   run: >
       #     OWNER="${{ steps.get_repo_owner.outputs.repo_owner }}" 
@@ -91,7 +90,6 @@ jobs:
       #     faas-cli deploy --gateway ${{secrets.OPENFAAS_URL}}
       - name: Docker push image
         run: >
-          FUNCTION_NAME="compound7"
-          docker push ${{secrets.DOCKERHUB_USERNAME}}/${{FUNCTION_NAME}}
+          docker push ${{secrets.DOCKERHUB_USERNAME}}/compound7
       
  
