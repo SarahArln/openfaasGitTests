@@ -79,17 +79,18 @@ jobs:
       #     --build-arg GO111MODULE=on
       #     --platforms linux/amd64,linux/arm/v7,linux/arm64
 
-      # - name: Login
-      #   run: >
-      #     echo ${{secrets.OPENFAAS_PASSWORD}} | 
-      #     faas-cli login --gateway ${{secrets.OPENFAAS_URL}} --password-stdin
-      # - name: Deploy
-      #   run: >
-      #     OWNER="${{ steps.get_repo_owner.outputs.repo_owner }}"
-      #     TAG="${{ github.sha }}"
-      #     faas-cli deploy --gateway ${{secrets.OPENFAAS_URL}}
       - name: Docker push image
         run: >
           docker push ${{secrets.DOCKERHUB_USERNAME}}/compound7
+
+      - name: OpenFaaS Login
+        run: >
+          echo ${{secrets.OPENFAAS_PASSWORD}} | 
+          faas-cli login -u admin --gateway ${{secrets.OPENFAAS_URL}} --password-stdin
       
+      - name: Deploy
+        run: >
+          OWNER="${{ steps.get_repo_owner.outputs.repo_owner }}"
+          TAG="${{ github.sha }}"
+          faas-cli deploy --gateway ${{secrets.OPENFAAS_URL}}
  
