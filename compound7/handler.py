@@ -5,9 +5,9 @@ from print0 import print0
 p = print0('33')
 
 def handle(req):
-    listener_ip = '10.0.0.123'
-    database_ip = '10.0.0.123'
-    openfaas_ip = 'http://10.0.0.123:31112/function/openfaas'
+    listener_ip = '192.168.11.101'
+    database_ip = '192.168.11.101'
+    openfaas_ip = 'http://192.168.11.101:31112/function/openfaas'
     data = {
         "ip": listener_ip,
         "device": "magician",
