@@ -1,5 +1,6 @@
 name: ci
 
+# when to trigger a build named 'ci': every PR and push to a remote branch
 on:
   push:
     branches:
@@ -38,6 +39,7 @@ jobs:
   openfaas:
     runs-on: ubuntu-latest
     steps:
+    # set up Docker and OpenFaaS
       - name: Checkout
         uses: actions/checkout@v3
       - name: Get faas-cli
@@ -55,41 +57,31 @@ jobs:
           echo ::set-output name=repo_owner::$(echo ${{ github.repository_owner }} |
           tr '[:upper:]' '[:lower:]')
 
+    # Login to docker hub
       - name: Docker Login
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      # - name: Docker Login
-      #   run: >
-      #     echo ${{secrets.GITHUB_TOKEN}} | 
-      #     docker login ghcr.io --username 
-      #     ${{ steps.get_repo_owner.outputs.repo_owner }} 
-      #     --password-stdin
       
+    # Build docker image via faas-cli
       - name: Build image
         run: >
           faas-cli build -f ./compound7.yml
-      # - name: Publish functions
-      #   run: >
-      #     OWNER="${{ steps.get_repo_owner.outputs.repo_owner }}" 
-      #     TAG="latest"
-      #     faas-cli publish
-      #     --extra-tag ${{ github.sha }}
-      #     --build-arg GO111MODULE=on
-      #     --platforms linux/amd64,linux/arm/v7,linux/arm64
 
+    # Push image to docker hub
       - name: Docker push image
         run: >
           docker push ${{secrets.DOCKERHUB_USERNAME}}/compound7
 
-      - name: OpenFaaS Login
-        run: >
-          faas-cli login -u admin -p admin --gateway ${{secrets.OPENFAAS_URL}}
+    # Login to OpenFaaS and deploy function
+      # - name: OpenFaaS Login
+      #   run: >
+      #     faas-cli login -u admin -p admin --gateway ${{secrets.OPENFAAS_URL}}
       
-      - name: Deploy
-        run: >
-          OWNER="${{ steps.get_repo_owner.outputs.repo_owner }}"
-          TAG="${{ github.sha }}"
-          faas-cli deploy --gateway ${{secrets.OPENFAAS_URL}}
+      # - name: Deploy
+      #   run: >
+      #     OWNER="${{ steps.get_repo_owner.outputs.repo_owner }}"
+      #     TAG="${{ github.sha }}"
+      #     faas-cli deploy --gateway ${{secrets.OPENFAAS_URL}}
  
