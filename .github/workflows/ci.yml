@@ -85,7 +85,6 @@ jobs:
 
       - name: OpenFaaS Login
         run: >
-          echo ${{secrets.OPENFAAS_PASSWORD}} | 
           faas-cli login -u admin -p admin --gateway ${{secrets.OPENFAAS_URL}}
       
       - name: Deploy
